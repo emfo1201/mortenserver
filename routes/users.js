@@ -1,5 +1,5 @@
 // users.js
-const express = require('express');
+import express from 'express';
 import { signup, signin } from '../controllers/user.js';
 import authMiddleware from '../middleware/auth.js';
 

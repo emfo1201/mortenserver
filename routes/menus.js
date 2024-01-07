@@ -1,4 +1,4 @@
-const express = require('express');
+import express from 'express'
 import { addCategory, addSubCategory, deleteCategory, deleteSubCategory, getCategory, getMenuCategory } from '../controllers/menu.js'
 const router = express.Router()
 

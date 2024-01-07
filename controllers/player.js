@@ -1,4 +1,4 @@
-const express = require('express');
+import express from 'express'
 import mongoose from 'mongoose'
 import Player from'../models/Player.js'
 import multer from 'multer'
