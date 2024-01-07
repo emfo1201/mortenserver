@@ -1,4 +1,4 @@
-import express from 'express'
+const express = require('express');
 import Menu from'../models/Menu.js'
 
 const router = express.Router()

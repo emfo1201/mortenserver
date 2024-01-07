@@ -1,4 +1,4 @@
-import express from 'express'
+const express = require('express');
 import { getPlayer, getPlayers, getPlayerById, addPlayer, deletePlayer, updatePlayer } from '../controllers/player.js'
 import multer from "multer";
 import  auth from '../middleware/auth.js'
