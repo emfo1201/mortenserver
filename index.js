@@ -32,6 +32,10 @@ app.use(bodyParser.json({ extended: true }))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use("/images", express.static("images"));
 
+app.get('/', (req, res) => {
+  res.send('Hello to Morten API');
+})
+
 
 // Connect to routes
 app.use('/api/menus', menus)
