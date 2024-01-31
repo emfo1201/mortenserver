@@ -36,7 +36,6 @@ app.get('/', (req, res) => {
   res.send('Hello to Morten API');
 })
 
-
 // Connect to routes
 app.use('/api/menus', menus)
 app.use('/api/players', players)
