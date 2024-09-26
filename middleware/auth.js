@@ -1,34 +1,29 @@
-import jwt from 'jsonwebtoken'
-import dotenv from 'dotenv';
-
-// This function is to check whether the admin is (still) logged in
-// so no one can do changes without authorization
-// First after the authorization is verified, the controller (/controllers/user.js) takes over
+// middleware.auth.js
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
 
 dotenv.config();
 
 const auth = async (req, res, next) => {
-    
-    try {
-        const token = req.get("Authorization").split(" ")[1]
-        const isCustomAuth = token.length < 500
+  const token = req.headers.authorization?.split(" ")[1];
 
-        let decodedData
+  if (!token) {
+    return res.status(401).json({ message: "No token provided" });
+  }
 
-        if(token && isCustomAuth) {
-            decodedData = jwt.verify(token, process.env.JWT)
-            req.userId = decodedData?.id
-        } else {
-            decodedData = jwt.decode(token)
+  try {
+    const decodedData = jwt.verify(token, process.env.JWT);
+    req.userId = decodedData?.id;
 
-            req.userId = decodedData?.sub
-        }
-
-        next()
-
-    } catch (error) {
-        console.log(error)
+    if (!req.userId) {
+      return res.status(401).json({ message: "Invalid token" });
     }
-}
 
-export default auth
+    next();
+  } catch (error) {
+    console.error("Error in authentication middleware:", error);
+    return res.status(401).json({ message: "Authentication failed" });
+  }
+};
+
+export default auth;

@@ -1,26 +1,35 @@
-import express from 'express'
-import { getPlayer, getPlayers, getPlayerById, addPlayer, deletePlayer, updatePlayer } from '../controllers/player.js'
+// routes/players.js
+import express from "express";
+import {
+  getPlayer,
+  getPlayers,
+  getPlayerById,
+  getPlayersBySearch,
+  addPlayer,
+  deletePlayer,
+  updatePlayer,
+} from "../controllers/player.js";
 import multer from "multer";
-import  auth from '../middleware/auth.js'
-const router = express.Router()
+import auth from "../middleware/auth.js";
 
-const fileStorageEngine = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, './images')
-    },
-    filename: (req, file, cb) => {
-        const fileName = Date.now() + "--" + file.originalname;
-        cb(null, fileName);
-    }
+const router = express.Router();
+
+// Definiera multer lagringsinställningar
+const storage = multer.memoryStorage();
+const upload = multer({
+  storage: storage,
+  limits: {
+    fileSize: 1024 * 1024 * 200, // Max filstorlek 5MB
+  },
 });
 
-const upload = multer({storage: fileStorageEngine})
+// Define routes
+router.get("/", getPlayer);
+router.get("/listPlayers", getPlayers);
+router.get("/search", getPlayersBySearch);
+router.get("/:id", getPlayerById);
+router.post("/", auth, upload.array("images", 5), addPlayer);
+router.post("/updatePlayer/:id", auth, upload.array("images", 5), updatePlayer);
+router.delete("/:id", auth, deletePlayer);
 
-router.get('/', getPlayer)
-router.get('/search', getPlayers)
-router.get('/:id', getPlayerById)
-router.post('/', auth, upload.array("images", 5), addPlayer)
-router.delete('/:id', auth, deletePlayer)
-router.patch('/:id', auth, updatePlayer)
-
-export default router
+export default router;

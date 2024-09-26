@@ -1,19 +1,20 @@
-import mongoose from 'mongoose'
-const Schema = mongoose.Schema
+// models/Menu.js
+import mongoose from "mongoose";
+const Schema = mongoose.Schema;
 
 const menuSchema = new Schema({
-    mainMenu: {
-        type: String,
-        required: true,
-        unique: true
-    },
-    subMenu: {
-        type: [String],
-        required: false,
-        unique: false
-    }
-})
+  mainMenu: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  subMenu: {
+    type: [String],
+    required: false,
+    unique: false,
+  },
+});
 
-let Menu = mongoose.model('Menu', menuSchema)
+let Menu = mongoose.model("Menu", menuSchema);
 
-export default Menu
+export default Menu;
